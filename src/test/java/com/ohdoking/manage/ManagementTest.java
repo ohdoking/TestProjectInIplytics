@@ -1,6 +1,7 @@
 package com.ohdoking.manage;
 
 import com.ohdoking.manage.dao.Project;
+import com.ohdoking.manage.dao.Task;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,6 +63,13 @@ public class ManagementTest {
     /**
      * Delete a task (don‘t forget to update the underlying references)
      */
+    @Test
+    public void testDeleteTask(){
+        management.imports();
+        Task task = management.getAllTasks().get(0);
+        management.deleteTask(task);
+        assertTrue(management.getAllTasks().get(0).getName().equals(task.getName()));
+    }
 
     /**
      * Delete a project (don‘t forget to update the underlying references)

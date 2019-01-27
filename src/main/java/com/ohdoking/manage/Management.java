@@ -237,4 +237,14 @@ public class Management {
     public List<Task> getAllTasks() {
         return taskList;
     }
+
+    public void deleteTask(Task task) {
+        for(Task task1 : taskList){
+            if(task1.getName().equals(task.getName())){
+                taskList.remove(task);
+                break;
+            }
+        }
+        //update the underlying references
+    }
 }
