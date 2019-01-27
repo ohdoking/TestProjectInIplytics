@@ -1,9 +1,11 @@
 package com.ohdoking.manage;
 
+import com.ohdoking.manage.dao.Project;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ManagementTest {
 
@@ -49,6 +51,14 @@ public class ManagementTest {
     /**
      * Assign a project to an employee (an employee can only work on two projects at the same time).
      */
+    @Test
+    public void testNotAssingMore2Project(){
+        management.imports();
+        for(Project project : management.getAllProjects()){
+            management.getAllEmployees().get(0).setProject(project);
+        }
+        assertFalse(management.getAllEmployees().get(0).getProjectList().size() < 2);
+    }
 
     /**
      * Delete a task (don‘t forget to update the underlying references)

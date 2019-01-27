@@ -42,6 +42,12 @@ public class Management {
         return content;
     }
 
+    public void imports(){
+        importProjects();
+        importEmployees();
+        importTasks();
+    }
+
     /**
      * Importing of existing projects based on the projects.csv (check for invalid rows and duplicates)
      */
@@ -148,6 +154,11 @@ public class Management {
         }
     }
 
+    /**
+     * check contain task in task list
+     * @param task
+     * @return
+     */
     private boolean isContainTask(Task task) {
         for(Task task1 : taskList){
             if(task1.getName().equals(task.getName())){
