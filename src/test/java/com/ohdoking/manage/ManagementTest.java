@@ -26,6 +26,11 @@ public class ManagementTest {
     /**
      * Importing of existing employees based on the employees.csv (check for invalid rows and duplicates)
      */
+    @Test
+    public void testImportEmployees(){
+        management.importEmployees();
+        assertEquals("Hanne",management.getAllEmployees().get(0).getLastName());
+    }
 
     /**
      * Importing of existing tasks based on the tasks.csv (check for invalid rows and duplicates)
