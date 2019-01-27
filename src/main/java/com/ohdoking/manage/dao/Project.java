@@ -10,6 +10,7 @@ public class Project {
     private LocalDateTime startDate;
     private int Buffer;
     private LocalDateTime endDate;
+    private String[] header = new String[]{"Name","Start Date","Buffer"};
 
     private List<Task> taskList;
 
@@ -68,5 +69,13 @@ public class Project {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
     }
 }

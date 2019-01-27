@@ -3,6 +3,7 @@ package com.ohdoking.manage;
 import com.ohdoking.manage.dao.Employee;
 import com.ohdoking.manage.dao.Project;
 import com.ohdoking.manage.dao.Task;
+import com.ohdoking.manage.utils.CsvUtil;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -22,25 +23,12 @@ public class Management {
     List<Project> projectList;
     List<Employee> employeeList;
     List<Task> taskList;
+    CsvUtil csvUtil;
 
-    public List<String[]> readData(String path) throws IOException {
-        int count = 0;
-        String file = path;
-        List<String[]> content = new ArrayList<>();
-        boolean checkFirstLine = true;
-        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                if(checkFirstLine){
-                    checkFirstLine = !checkFirstLine;
-                    continue;
-                }
-                content.add(line.replace("\"","").split(","));
-            }
-        } catch (FileNotFoundException e) {
-            //Some error logging
-        }
-        return content;
+
+
+    public Management(){
+        csvUtil = new CsvUtil();
     }
 
     public void imports(){
@@ -55,36 +43,31 @@ public class Management {
     public void importProjects() {
         projectList = new ArrayList();
         String file = "src/main/resources/projects.csv";
-        try {
-            for(String[] data : readData(file)){
-                Project project = new Project();
-                for(int i = 0 ; i < data.length; i++){
-                    project.setId(i);
-                    if(i == 0){
-                        project.setName(data[i]);
-                    }
-                    else if(i == 1){
-                        LocalDateTime tempTime = stringToDate(data[i]);
-                        project.setStartDate(tempTime);
-                        project.setEndDate(tempTime);
-                    }
-                    else if(i == 2){
-                        String temp = data[i];
-                        if(NumberUtils.isDigits(temp)){
-                            project.setBuffer(Integer.valueOf(temp));
-                            project.setEndDate(project.getEndDate().plusHours(Integer.valueOf(temp)));
-                        }
-                    }
+        csvUtil.readData(file).forEach(data -> {
+            Project project = new Project();
+            for(int i = 0 ; i < data.length; i++){
+                project.setId(i);
+                if(i == 0){
+                    project.setName(data[i]);
                 }
-                //check for invalid rows and duplicates)
-                if(project.getBuffer() != 0 && isContainProject(project)){
-                    projectList.add(project);
+                else if(i == 1){
+                    LocalDateTime tempTime = stringToDate(data[i]);
+                    project.setStartDate(tempTime);
+                    project.setEndDate(tempTime);
+                }
+                else if(i == 2){
+                    String temp = data[i];
+                    if(NumberUtils.isDigits(temp)){
+                        project.setBuffer(Integer.valueOf(temp));
+                        project.setEndDate(project.getEndDate().plusHours(Integer.valueOf(temp)));
+                    }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+            //check for invalid rows and duplicates)
+            if(project.getBuffer() != 0 && isContainProject(project)){
+                projectList.add(project);
+            }
+        });
     }
 
     /**
@@ -94,33 +77,28 @@ public class Management {
 
         employeeList = new ArrayList<>();
         String file = "src/main/resources/employees.csv";
-        try {
-            for(String[] data : readData(file)){
-                Employee employee = new Employee();
-                for(int i = 0 ; i < data.length; i++){
-                    employee.setId(i);
-                    if(i == 0){
-                        employee.setFirstName(data[i]);
-                    }
-                    else if(i == 1){
-                        employee.setLastName(data[i]);
-                    }
-                    else if(i == 2){
-                        if(!data[i].equals(" ")){
-                            for(Employee employee1 : employeeList){
-                                if(employee1.getLastName().equals(data[i])){
-                                    employee.setSupervisor(employee1);
-                                }
+        csvUtil.readData(file).forEach(data -> {
+            Employee employee = new Employee();
+            for(int i = 0 ; i < data.length; i++){
+                employee.setId(i);
+                if(i == 0){
+                    employee.setFirstName(data[i]);
+                }
+                else if(i == 1){
+                    employee.setLastName(data[i]);
+                }
+                else if(i == 2){
+                    if(!data[i].equals(" ")){
+                        for(Employee employee1 : employeeList){
+                            if(employee1.getLastName().equals(data[i])){
+                                employee.setSupervisor(employee1);
                             }
                         }
                     }
                 }
-                employeeList.add(employee);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+            employeeList.add(employee);
+        });
     }
 
     /**
@@ -129,33 +107,28 @@ public class Management {
     public void importTasks() {
         taskList = new ArrayList<>();
         String file = "src/main/resources/tasks.csv";
-
-        try {
-            for(String[] data : readData(file)){
-                Task task = new Task();
-                for(int i = 0 ; i < data.length; i++){
-                    task.setId(i);
-                    if(i == 0){
-                        task.setName(data[i]);
-                    }
-                    else if(i == 1){
-                        task.setDescription(data[i]);
-                    }
-                    else if(i == 2){
-                        String temp = data[i];
-                        if(NumberUtils.isDigits(temp)){
-                            task.setEstimatedHours(Integer.valueOf(temp));
-                        }
-                    }
-
+        csvUtil.readData(file).forEach(data -> {
+            Task task = new Task();
+            for(int i = 0 ; i < data.length; i++){
+                task.setId(i);
+                if(i == 0){
+                    task.setName(data[i]);
                 }
-                if(isContainTask(task)){
-                    taskList.add(task);
+                else if(i == 1){
+                    task.setDescription(data[i]);
                 }
+                else if(i == 2){
+                    String temp = data[i];
+                    if(NumberUtils.isDigits(temp)){
+                        task.setEstimatedHours(Integer.valueOf(temp));
+                    }
+                }
+
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if(isContainTask(task)){
+                taskList.add(task);
+            }
+        });
     }
 
     /**
@@ -255,24 +228,7 @@ public class Management {
         }
         //update the underlying references
         String file = "src/main/resources/tasks.csv";
-        try {
-            CSVReader reader = new CSVReader(new FileReader(file), ',','"',1);
-            List<String[]> lines = reader.readAll();
-            CSVWriter writer = new CSVWriter(new FileWriter(file,false), ',');
-            writer.writeNext(new String[]{"Name","Description","Estimated Hours"});
-            for(String[] row : lines){
-                //delete row
-                if(task.getName().equals(row[0])) {
-                    continue;
-                }
-                writer.writeNext(row);
-            }
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        csvUtil.deleteRowInCSV(file, task.getName(), task.getHeader());
     }
 
     /**
@@ -298,23 +254,7 @@ public class Management {
         }
         //update the underlying references
         String file = "src/main/resources/projects.csv";
-        try {
-            CSVReader reader = new CSVReader(new FileReader(file), ',','"',1);
-            List<String[]> lines = reader.readAll();
-            CSVWriter writer = new CSVWriter(new FileWriter(file,false), ',');
-            writer.writeNext(new String[]{"Name","Start Date","Buffer"});
-            for(String[] row : lines){
-                //delete row
-                if(project.getName().equals(row[0])) {
-                    continue;
-                }
-                writer.writeNext(row);
-            }
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        csvUtil.deleteRowInCSV(file, project.getName(), project.getHeader());
     }
 
     /**

@@ -5,6 +5,7 @@ public class Task {
     private String name;
     private String description;
     private int estimatedHours;
+    private String[] header = new String[]{"Name","Description","Estimated Hours"};
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class Task {
 
     public void setEstimatedHours(int estimatedHours) {
         this.estimatedHours = estimatedHours;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
     }
 }

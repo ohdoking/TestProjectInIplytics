@@ -9,6 +9,7 @@ public class Employee {
     private String lastName;
     private Employee supervisor;
     private List<Project> projectList;
+    private String[] header = new String[]{"First Name","Last Name","Supervisor"};
 
     public Employee(){
         projectList = new ArrayList<>();
@@ -60,5 +61,13 @@ public class Employee {
 
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
     }
 }

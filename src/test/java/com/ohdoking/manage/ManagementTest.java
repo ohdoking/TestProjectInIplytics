@@ -5,9 +5,7 @@ import com.ohdoking.manage.dao.Task;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
