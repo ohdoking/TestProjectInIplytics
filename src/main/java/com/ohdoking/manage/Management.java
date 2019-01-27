@@ -4,11 +4,8 @@ import com.ohdoking.manage.dao.Employee;
 import com.ohdoking.manage.dao.Project;
 import com.ohdoking.manage.dao.Task;
 import com.ohdoking.manage.utils.CsvUtil;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +22,9 @@ public class Management {
     List<Task> taskList;
     CsvUtil csvUtil;
 
-
+    static final String PROJECT_CSV_PATH = "src/main/resources/projects.csv";
+    static final String EMPLOYEE_CSV_PATH = "src/main/resources/employees.csv";
+    static final String TASK_CSV_PATH = "src/main/resources/tasks.csv";
 
     public Management(){
         csvUtil = new CsvUtil();
@@ -42,8 +41,7 @@ public class Management {
      */
     public void importProjects() {
         projectList = new ArrayList();
-        String file = "src/main/resources/projects.csv";
-        csvUtil.readData(file).forEach(data -> {
+        csvUtil.readData(PROJECT_CSV_PATH).forEach(data -> {
             Project project = new Project();
             for(int i = 0 ; i < data.length; i++){
                 project.setId(i);
@@ -76,8 +74,7 @@ public class Management {
     public void importEmployees() {
 
         employeeList = new ArrayList<>();
-        String file = "src/main/resources/employees.csv";
-        csvUtil.readData(file).forEach(data -> {
+        csvUtil.readData(EMPLOYEE_CSV_PATH).forEach(data -> {
             Employee employee = new Employee();
             for(int i = 0 ; i < data.length; i++){
                 employee.setId(i);
@@ -106,8 +103,7 @@ public class Management {
      */
     public void importTasks() {
         taskList = new ArrayList<>();
-        String file = "src/main/resources/tasks.csv";
-        csvUtil.readData(file).forEach(data -> {
+        csvUtil.readData(TASK_CSV_PATH).forEach(data -> {
             Task task = new Task();
             for(int i = 0 ; i < data.length; i++){
                 task.setId(i);
@@ -227,8 +223,7 @@ public class Management {
             }
         }
         //update the underlying references
-        String file = "src/main/resources/tasks.csv";
-        csvUtil.deleteRowInCSV(file, task.getName(), task.getHeader());
+        csvUtil.deleteRowInCSV(TASK_CSV_PATH, task.getName(), task.getHeader());
     }
 
     /**
@@ -253,8 +248,7 @@ public class Management {
             }
         }
         //update the underlying references
-        String file = "src/main/resources/projects.csv";
-        csvUtil.deleteRowInCSV(file, project.getName(), project.getHeader());
+        csvUtil.deleteRowInCSV(PROJECT_CSV_PATH, project.getName(), project.getHeader());
     }
 
     /**
