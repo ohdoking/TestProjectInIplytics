@@ -1,6 +1,8 @@
 package com.ohdoking.manage;
 
+import com.ohdoking.manage.dao.Employee;
 import com.ohdoking.manage.dao.Project;
+import com.ohdoking.manage.dao.Task;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.BufferedReader;
@@ -12,15 +14,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class Management {
 
     List<Project> projectList;
     List<Employee> employeeList;
+    List<Task> taskList;
 
     public List<String[]> readData(String path) throws IOException {
         int count = 0;
@@ -49,7 +49,6 @@ public class Management {
         projectList = new ArrayList();
         String file = "src/main/resources/projects.csv";
         try {
-            int index = 0;
             for(String[] data : readData(file)){
                 Project project = new Project();
                 for(int i = 0 ; i < data.length; i++){
@@ -86,7 +85,6 @@ public class Management {
         employeeList = new ArrayList<>();
         String file = "src/main/resources/employees.csv";
         try {
-            int index = 0;
             for(String[] data : readData(file)){
                 Employee employee = new Employee();
                 for(int i = 0 ; i < data.length; i++){
@@ -116,6 +114,50 @@ public class Management {
     }
 
     /**
+     * Importing of existing tasks based on the tasks.csv (check for invalid rows and duplicates)
+     */
+    public void importTasks() {
+        taskList = new ArrayList<>();
+        String file = "src/main/resources/tasks.csv";
+
+        try {
+            for(String[] data : readData(file)){
+                Task task = new Task();
+                for(int i = 0 ; i < data.length; i++){
+                    task.setId(i);
+                    if(i == 0){
+                        task.setName(data[i]);
+                    }
+                    else if(i == 1){
+                        task.setDescription(data[i]);
+                    }
+                    else if(i == 2){
+                        String temp = data[i];
+                        if(NumberUtils.isDigits(temp)){
+                            task.setEstimatedHours(Integer.valueOf(temp));
+                        }
+                    }
+
+                }
+                if(isContainTask(task)){
+                    taskList.add(task);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isContainTask(Task task) {
+        for(Task task1 : taskList){
+            if(task1.getName().equals(task.getName())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * check contain project in project list
      * @param project
      * @return
@@ -127,15 +169,6 @@ public class Management {
             }
         }
         return true;
-    }
-
-    /**
-     * get Project List
-     *
-     * @return Project List
-     */
-    public List<Project> getAllProjects(){
-        return projectList;
     }
 
     /**
@@ -169,11 +202,28 @@ public class Management {
     }
 
     /**
+     * get Project List
+     *
+     * @return Project List
+     */
+    public List<Project> getAllProjects(){
+        return projectList;
+    }
+
+    /**
      * get Employee List
      *
      * @return List<Employee>
      */
     public List<Employee> getAllEmployees() {
         return employeeList;
+    }
+
+    /**
+     * get Task List
+     * @return List<Task>
+     */
+    public List<Task> getAllTasks() {
+        return taskList;
     }
 }

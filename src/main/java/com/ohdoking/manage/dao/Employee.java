@@ -1,6 +1,4 @@
-package com.ohdoking.manage;
-
-import java.util.List;
+package com.ohdoking.manage.dao;
 
 public class Employee {
     private int id;

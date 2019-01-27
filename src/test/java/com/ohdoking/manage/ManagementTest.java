@@ -35,6 +35,11 @@ public class ManagementTest {
     /**
      * Importing of existing tasks based on the tasks.csv (check for invalid rows and duplicates)
      */
+    @Test
+    public void testImportTasks(){
+        management.importTasks();
+        assertEquals("Data Cleaning",management.getAllTasks().get(0).getName());
+    }
 
     /**
      * Assign a task to a project:
