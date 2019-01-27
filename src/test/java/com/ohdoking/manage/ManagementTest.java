@@ -5,7 +5,9 @@ import com.ohdoking.manage.dao.Task;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -106,9 +108,22 @@ public class ManagementTest {
     /**
      * Display/View all tasks for a given project
      */
+    @Test
+    public void testGetAllTasksByProject(){
+        management.imports();
+        for(Task task : management.getAllTasks()){
+            management.getAllProjects().get(0).setTask(task);
+        }
+        assertEquals(9,management.getTasksByProject(management.getAllProjects().get(0)).size());
+    }
 
 
     /**
      * Getting the total days needed for a given list of projects (assuming that projects can‘t be worked on parallel)
      */
+    @Test
+    public void testGetTotalDaysProjectThatINeedForFinish(){
+        management.imports();
+        assertEquals(2, management.getTotalDaysProject(management.getAllProjects()));
+    }
 }

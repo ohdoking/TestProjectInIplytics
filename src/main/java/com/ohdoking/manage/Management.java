@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Management {
 
@@ -277,5 +279,33 @@ public class Management {
             }
         }
         //TODO update the underlying references
+    }
+
+    /**
+     * get Task by Project
+     * @param project
+     * @return
+     */
+    public List<Task> getTasksByProject(Project project) {
+        for(Project project1: projectList){
+            if(project1.getName().equals(project.getName())){
+                return project1.getTaskList();
+            }
+        }
+        //TODO deal with exception.
+        return new ArrayList<Task>();
+    }
+
+    /**
+     * get total days project that i need for finish
+     * @param allProjects
+     * @return
+     */
+    public long getTotalDaysProject(List<Project> allProjects) {
+        long totalMillis = 0;
+        for(Project project : allProjects){
+            totalMillis += Duration.between(project.getStartDate(), project.getEndDate()).toMillis();
+        }
+        return TimeUnit.MILLISECONDS.toDays(totalMillis);
     }
 }
