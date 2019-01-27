@@ -100,7 +100,7 @@ public class ManagementTest {
     @Test
     public void testGetAllEmployees(){
         management.imports();
-        assertEquals(11,management.getAllEmployees().size());
+        assertEquals(10,management.getAllEmployees().size());
     }
 
     /**

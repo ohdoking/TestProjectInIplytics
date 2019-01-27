@@ -94,9 +94,14 @@ public class Management {
                     }
                 }
             }
-            employeeList.add(employee);
+            //check for invalid rows and duplicates)
+            if(isContainEmployee(employee)) {
+                employeeList.add(employee);
+            }
         });
     }
+
+
 
     /**
      * Importing of existing tasks based on the tasks.csv (check for invalid rows and duplicates)
@@ -121,6 +126,7 @@ public class Management {
                 }
 
             }
+            //check for invalid rows and duplicates)
             if(isContainTask(task)){
                 taskList.add(task);
             }
@@ -149,6 +155,20 @@ public class Management {
     private boolean isContainProject(Project project) {
         for(Project project1 : projectList){
             if(project1.getName().equals(project.getName())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * check contain employee in employee list
+     * @param employee
+     * @return
+     */
+    private boolean isContainEmployee(Employee employee) {
+        for(Employee employee1 : employeeList){
+            if(employee1.getFirstName().equals(employee.getFirstName()) && employee1.getLastName().equals(employee.getLastName())){
                 return false;
             }
         }
