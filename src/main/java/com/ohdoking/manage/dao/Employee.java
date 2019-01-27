@@ -51,6 +51,7 @@ public class Employee {
     }
 
     public void setProject(Project project) {
+        //an employee can only work on two projects at the same time
         if(getProjectList().size() < 2){
             this.projectList.add(project);
         }

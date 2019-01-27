@@ -63,12 +63,15 @@ public class Management {
                         project.setName(data[i]);
                     }
                     else if(i == 1){
-                        project.setStartDate(stringToDate(data[i]));
+                        LocalDateTime tempTime = stringToDate(data[i]);
+                        project.setStartDate(tempTime);
+                        project.setEndDate(tempTime);
                     }
                     else if(i == 2){
                         String temp = data[i];
                         if(NumberUtils.isDigits(temp)){
                             project.setBuffer(Integer.valueOf(temp));
+                            project.setEndDate(project.getEndDate().plusHours(Integer.valueOf(temp)));
                         }
                     }
                 }

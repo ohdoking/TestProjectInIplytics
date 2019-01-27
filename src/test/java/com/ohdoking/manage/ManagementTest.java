@@ -5,6 +5,8 @@ import com.ohdoking.manage.dao.Task;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.*;
 
 public class ManagementTest {
@@ -47,6 +49,16 @@ public class ManagementTest {
      * Assign a task to a project:
      * By this the attributes „assigned tasks" and „end date" will be calculated/update automatically
      */
+    @Test
+    public void testAssignTaskToProject(){
+        management.imports();
+        for(Task task : management.getAllTasks()){
+            management.getAllProjects().get(0).setTask(task);
+        }
+
+        assertTrue(management.getAllProjects().get(0).getTaskList().get(0).getName().equals(management.getAllTasks().get(0).getName()));
+        assertEquals(LocalDateTime.of(2017, 1, 22, 14, 00,00),management.getAllProjects().get(0).getEndDate());
+    }
 
     /**
      * Assign a project to an employee (an employee can only work on two projects at the same time).

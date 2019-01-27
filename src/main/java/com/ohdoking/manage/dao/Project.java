@@ -1,15 +1,20 @@
 package com.ohdoking.manage.dao;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Project {
     private int id;
     private String Name;
     private LocalDateTime startDate;
     private int Buffer;
+    private LocalDateTime endDate;
+
+    private List<Task> taskList;
 
     public Project(){
-
+        taskList = new ArrayList<Task>();
     }
 
     public int getId() {
@@ -44,4 +49,24 @@ public class Project {
         this.startDate = startDate;
     }
 
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+    }
+
+    public void setTask(Task task){
+        setEndDate(getEndDate().plusHours(task.getEstimatedHours()));
+        this.taskList.add(task);
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
 }
