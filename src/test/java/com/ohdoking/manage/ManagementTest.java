@@ -68,7 +68,7 @@ public class ManagementTest {
         management.imports();
         Task task = management.getAllTasks().get(0);
         management.deleteTask(task);
-        assertTrue(management.getAllTasks().get(0).getName().equals(task.getName()));
+        assertFalse(management.getAllTasks().get(0).getName().equals(task.getName()));
     }
 
     /**
@@ -79,16 +79,22 @@ public class ManagementTest {
         management.imports();
         Project project = management.getAllProjects().get(0);
         management.deleteProject(project);
-        assertTrue(management.getAllProjects().get(0).getName().equals(project.getName()));
+        assertFalse(management.getAllProjects().get(0).getName().equals(project.getName()));
     }
 
     /**
      * Display/View all employees
      */
+    @Test
+    public void testGetAllEmployees(){
+        management.imports();
+        assertEquals(11,management.getAllEmployees().size());
+    }
 
     /**
      * Display/View all tasks for a given project
      */
+
 
     /**
      * Getting the total days needed for a given list of projects (assuming that projects can‘t be worked on parallel)
