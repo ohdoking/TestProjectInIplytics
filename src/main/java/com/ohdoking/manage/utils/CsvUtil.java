@@ -16,6 +16,11 @@ public class CsvUtil {
         list = new ArrayList();
     }
 
+    /**
+     * read Data from CSV
+     * @param path
+     * @return
+     */
     public List<String[]> readData(String path) {
         List<String[]> content = new ArrayList<>();
         try{
@@ -31,13 +36,17 @@ public class CsvUtil {
         return content;
     }
 
+    /**
+     * delete specific item row in CSV
+     * @param path
+     * @param deleteItemName
+     * @param header
+     */
     public void deleteRowInCSV( String path, String deleteItemName, String[] header) {
-        //update the underlying references
-        String file = "src/main/resources/tasks.csv";
         try {
-            CSVReader reader = new CSVReader(new FileReader(file), ',','"',1);
+            CSVReader reader = new CSVReader(new FileReader(path), ',','"',1);
             List<String[]> lines = reader.readAll();
-            CSVWriter writer = new CSVWriter(new FileWriter(file,false), ',');
+            CSVWriter writer = new CSVWriter(new FileWriter(path,false), ',');
             writer.writeNext(header);
             for(String[] row : lines){
                 //delete row
