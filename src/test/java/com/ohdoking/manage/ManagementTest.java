@@ -1,7 +1,9 @@
 package com.ohdoking.manage;
 
-import com.ohdoking.manage.Management;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ManagementTest {
 
@@ -15,6 +17,11 @@ public class ManagementTest {
     /**
      * Importing of existing projects based on the projects.csv (check for invalid rows and duplicates)
      */
+    @Test
+    public void testImportProject(){
+        management.importProjects();
+        assertEquals("Mission Impossible",management.getAllProjects().get(0).getName());
+    }
 
     /**
      * Importing of existing employees based on the employees.csv (check for invalid rows and duplicates)
