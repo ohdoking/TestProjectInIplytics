@@ -4,8 +4,7 @@ import com.ohdoking.manage.dao.Project;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class ManagementTest {
 
@@ -57,7 +56,7 @@ public class ManagementTest {
         for(Project project : management.getAllProjects()){
             management.getAllEmployees().get(0).setProject(project);
         }
-        assertFalse(management.getAllEmployees().get(0).getProjectList().size() < 2);
+        assertTrue(management.getAllEmployees().get(0).getProjectList().size() == 2);
     }
 
     /**
