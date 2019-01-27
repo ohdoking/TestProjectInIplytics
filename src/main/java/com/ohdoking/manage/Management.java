@@ -3,12 +3,11 @@ package com.ohdoking.manage;
 import com.ohdoking.manage.dao.Employee;
 import com.ohdoking.manage.dao.Project;
 import com.ohdoking.manage.dao.Task;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -254,7 +253,26 @@ public class Management {
                 break;
             }
         }
-        //TODO update the underlying references
+        //update the underlying references
+        String file = "src/main/resources/tasks.csv";
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file), ',','"',1);
+            List<String[]> lines = reader.readAll();
+            CSVWriter writer = new CSVWriter(new FileWriter(file,false), ',');
+            writer.writeNext(new String[]{"Name","Description","Estimated Hours"});
+            for(String[] row : lines){
+                //delete row
+                if(task.getName().equals(row[0])) {
+                    continue;
+                }
+                writer.writeNext(row);
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -278,7 +296,25 @@ public class Management {
                 }
             }
         }
-        //TODO update the underlying references
+        //update the underlying references
+        String file = "src/main/resources/projects.csv";
+        try {
+            CSVReader reader = new CSVReader(new FileReader(file), ',','"',1);
+            List<String[]> lines = reader.readAll();
+            CSVWriter writer = new CSVWriter(new FileWriter(file,false), ',');
+            writer.writeNext(new String[]{"Name","Start Date","Buffer"});
+            for(String[] row : lines){
+                //delete row
+                if(project.getName().equals(row[0])) {
+                    continue;
+                }
+                writer.writeNext(row);
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
