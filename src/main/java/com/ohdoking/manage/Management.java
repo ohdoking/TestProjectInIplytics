@@ -238,6 +238,10 @@ public class Management {
         return taskList;
     }
 
+    /**
+     * delete task
+     * @param task
+     */
     public void deleteTask(Task task) {
         for(Task task1 : taskList){
             if(task1.getName().equals(task.getName())){
@@ -245,6 +249,30 @@ public class Management {
                 break;
             }
         }
-        //update the underlying references
+        //TODO update the underlying references
+    }
+
+    /**
+     * delete project
+     * @param project
+     */
+    public void deleteProject(Project project) {
+        //delete project in projectList
+        for(Project project1 : projectList){
+            if(project1.getName().equals(project.getName())){
+                projectList.remove(project1);
+                break;
+            }
+        }
+        //delete project that assign to employee
+        for (Employee employee : employeeList){
+            for(Project project1 : employee.getProjectList()){
+                if(project1.getName().equals(project.getName())){
+                    projectList.remove(project1);
+                    break;
+                }
+            }
+        }
+        //TODO update the underlying references
     }
 }

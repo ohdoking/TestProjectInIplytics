@@ -74,6 +74,13 @@ public class ManagementTest {
     /**
      * Delete a project (don‘t forget to update the underlying references)
      */
+    @Test
+    public void testDeleteProject(){
+        management.imports();
+        Project project = management.getAllProjects().get(0);
+        management.deleteProject(project);
+        assertTrue(management.getAllProjects().get(0).getName().equals(project.getName()));
+    }
 
     /**
      * Display/View all employees
